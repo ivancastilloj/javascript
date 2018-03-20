@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+
+    <link rel="stylesheet" type="text/css" href="cleanSlider.css" />
+    <script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+
+    <script type="text/javascript" src="jquery.cleanSlider.js"></script>
+</head>
+<body >
+        <script>
+                $(document).ready(function(){
+                    var config={};
+                    config.width =550;  //pixels
+                    config.height=350;  //pixels 
+                    config.intervalTime  =7000; //mili-seconds   
+                    $('.slider').cleanSlider(config);
+                })
+            </script>
+            <style>
+                
+                body{
+                    background-color: #2F3032;
+                    color:white;
+                    font-family: Trebuchet MS;
+                }
+                .container{
+                    width:960px;
+                    margin:0 auto;
+                }
+                h1{
+                    color: white;
+                    font-family: 'Supermercado One', cursive;
+                    font-size: 2em;
+                    font-weight: bold;
+                    text-shadow:3px 3px black;
+                }
+                .header{
+                    border-bottom: 3px solid white;
+                    font-family: 'Supermercado One', cursive;
+                    margin-bottom: 30px;
+                    margin-top: 10px;
+                    padding-top: 10px;
+                }
+            </style>
+    <h1>La vida de Jesucristo</h1>
+        <div class="slider">
+                <ul>
+                    <li><a href=""><img title="" src="img/1.jpg" /></a></li>
+                    <li><a href=""><img title="" src="img/2.jpg" /></a></li>
+                    <li><a href=""><img title="" src="img/3.jpg" /></a></li>
+                    <li><a href=""><img title="" src="img/4.jpg" /></a></li>
+                    <li><a href=""><img title="" src="img/5.jpg" /></a></li>
+                </ul>
+            </div>
+</body>
+</html>

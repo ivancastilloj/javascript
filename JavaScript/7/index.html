@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Tooltip con HTML, CSS y jQuery</title>
+<style type="text/css">
+#tooltip_lawebera_lawebera{
+    text-align: center;
+    color: #fff;
+    background: #111;
+    position: absolute;
+    z-index: 100;
+    padding: 15px;
+}
+
+#tooltip_lawebera:after{
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #111;
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    margin-left: -10px;
+}
+
+#tooltip_lawebera.superior:after{
+    border-top-color: transparent;
+    border-bottom: 10px solid #111;
+    top: -20px;
+    bottom: auto;
+}
+
+#tooltip_lawebera.izquierda:after{
+    left: 10px;
+    margin: 0;
+}
+
+#tooltip_lawebera.derecha:after{
+    right: 10px;
+    left: auto;
+    margin: 0;
+}
+</style>
+
+</head>
+
+<body>
+   <span title="¡Esto es un tooltip!" rel="tooltip">Mierda de tooltip</span>
+</body>
+   <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+   <script>
+   $( function() {
+       var objetivos = $( '[rel~=tooltip]' ),
+       objetivo  = false,
+       tooltip   = false,
+       title     = false;
+
+       objetivos.bind( 'mouseenter', function(){
+           objetivo  = $( this );
+           tip     = objetivo.attr( 'title' );
+           tooltip = $( '<div id="tooltip_lawebera"></div>' );
+
+           if( !tip || tip == '' ){
+               return false;
+           }
+
+           objetivo.removeAttr( 'title' );
+           tooltip.css( 'opacity', 0 ).html( tip ).appendTo( 'body' );
+
+           var inicializar_tooltip = function(){
+               if( $( window ).width() < tooltip.outerWidth() * 1.5 )
+                   tooltip.css( 'max-width', $( window ).width() / 2 );
+               else
+                   tooltip.css( 'max-width', 340 );
+
+               var pos_izquierda = objetivo.offset().left + ( objetivo.outerWidth() / 2 ) - ( tooltip.outerWidth() / 2 ),
+               pos_superior  = objetivo.offset().top - tooltip.outerHeight() - 20;
+
+               if( pos_izquierda < 0 ){
+                   pos_izquierda = objetivo.offset().left + objetivo.outerWidth() / 2 - 20;
+                   tooltip.addClass( 'izquierda' );
+               }
+               else
+                   tooltip.removeClass( 'izquierda' );
+
+               if( pos_izquierda + tooltip.outerWidth() > $( window ).width() ){
+                   pos_izquierda = objetivo.offset().left - tooltip.outerWidth() + objetivo.outerWidth() / 2 + 20;
+                   tooltip.addClass( 'derecha' );
+               } else {
+                   tooltip.removeClass( 'derecha' );
+               }
+
+               if( pos_superior < 0 ){
+                   var pos_superior  = objetivo.offset().top + objetivo.outerHeight();
+                   tooltip.addClass( 'superior' );
+               } else {
+                   tooltip.removeClass( 'superior' );
+               }
+
+               tooltip.css( { left: pos_izquierda, top: pos_superior } ).animate( { top: '+=10', opacity: 1 }, 50 );
+           };
+
+           inicializar_tooltip();
+
+           $( window ).resize( inicializar_tooltip );
+
+           var remover_tooltip = function(){
+               tooltip.animate( { top: '-=10', opacity: 0 }, 50, function(){
+                   $( this ).remove();
+               });
+
+               objetivo.attr( 'title', tip );
+           };
+
+           objetivo.bind( 'mouseleave', remover_tooltip );
+           tooltip.bind( 'click', remover_tooltip );
+       });
+   });
+   </script>
+</html>
